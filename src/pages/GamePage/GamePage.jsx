@@ -1,21 +1,21 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
-import './GamePage.css';
-import NavBar from '../../components/NavBar/NavBar';
-import GameBoard from '../../components/GameBoard/GameBoard';
-import ColorPicker from '../../components/ColorPicker/ColorPicker';
-import NewGameButton from '../../components/NewGameButton/NewGameButton';
-import GameTimer from '../../components/GameTimer/GameTimer';
+import React from "react";
+import { Link } from "react-router-dom";
+import "./GamePage.css";
+import NavBar from "../../components/NavBar/NavBar";
+import GameBoard from "../../components/GameBoard/GameBoard";
+import ColorPicker from "../../components/ColorPicker/ColorPicker";
+import NewGameButton from "../../components/NewGameButton/NewGameButton";
+import GameTimer from "../../components/GameTimer/GameTimer";
 
-const GamePage = (props) => {
-
+const GamePage = props => {
   // if winner, return num guesses, otherwise 0 (no winner)
   let lastGuess = props.guesses.length - 1;
-  let winTries = props.guesses[lastGuess].score.perfect === 4 ? lastGuess + 1 : 0;
+  let winTries =
+    props.guesses[lastGuess].score.perfect === 4 ? lastGuess + 1 : 0;
 
   return (
     <div className="GamePage">
-      <NavBar />
+      <NavBar user={props.user} handleLogout={props.handleLogout} />
       <div className="GamePage-game">
         <GameBoard
           guesses={props.guesses}
@@ -35,14 +35,21 @@ const GamePage = (props) => {
             handleTick={props.handleTick}
             isTiming={props.isTiming}
           />
-          <Link className='btn btn-default' style={{margin: '0 10px'}} to='/settings'>Difficulty</Link>
-          <NewGameButton handleNewGameClick={props.handleNewGameClick}/>
+          <Link
+            className="btn btn-default"
+            style={{ margin: "0 10px" }}
+            to="/settings"
+          >
+            Difficulty
+          </Link>
+          <NewGameButton handleNewGameClick={props.handleNewGameClick} />
         </div>
       </div>
-      <footer className='header-footer'>{(winTries ? `You Won in ${winTries} Guesses!` : 'Good Luck!')}</footer>
+      <footer className="header-footer">
+        {winTries ? `You Won in ${winTries} Guesses!` : "Good Luck!"}
+      </footer>
     </div>
   );
-
-}
+};
 
 export default GamePage;

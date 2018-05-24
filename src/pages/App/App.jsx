@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
 import "./App.css";
 import GamePage from "../GamePage/GamePage";
 import SettingsPage from "../SettingsPage/SettingsPage";
@@ -215,14 +220,24 @@ class App extends Component {
             <Route
               exact
               path="/login"
-              render={(props) => (
+              render={props => (
                 <LoginPage
                   history={props.history}
                   handleLogin={this.handleLogin}
                 />
               )}
             />
-            <Route exact path="/topscores" component={TopScoresPage} />
+            <Route
+              exact
+              path="/topscores"
+              render={() =>
+                userService.getUser() ? (
+                  <TopScoresPage />
+                ) : (
+                  <Redirect to="/login" />
+                )
+              }
+            />
           </Switch>
         </Router>
       </div>
